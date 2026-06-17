@@ -24,8 +24,27 @@ DEPLOYMENT_READY.md
 MASTER_AUDIT_PROMPT.md
 SETUP_STATUS.md
 CHECKLIST.md
+COMPREHENSIVE_AUDIT_REPORT.md
+FINAL_VERIFICATION_REPORT.md
+FILES_MANIFEST.md
 *.history/
+documentation.md
+assessment.md
+
+# TEST & DEBUG SCRIPTS (exclude from repo)
 test-creator-cards*.sh
+test-*.js
+*-test.js
+check-*.js
+verify-*.js
+install-*.sh
+setup-*.js
+audit-*.js
+run-tests.sh
+
+# TEMPORARY FILES
+.env.local
+.env.temp
 
 # OS
 .DS_Store
