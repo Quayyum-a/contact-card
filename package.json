@@ -12,7 +12,7 @@
     "start": "node app.js",
     "dev": "node app.js",
     "test": "set USE_MOCK_MODEL=1 && mocha --recursive --require dotenv/config",
-    "prepare": "husky",
+    "prepare": "husky install || true",
     "commitlint": "commitlint --edit",
     "sync-envs": "node sync-env-files"
   },
