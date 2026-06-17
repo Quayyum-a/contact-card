@@ -1,5 +1,8 @@
 require('dotenv').config();
-const { SecretsManagerClient, GetSecretValueCommand } = require('@aws-sdk/client-secrets-manager');
+
+// Only import AWS SDK when actually needed
+let SecretsManagerClient;
+let GetSecretValueCommand;
 
 // Reads a single Secrets Manager secret (JSON or string) and injects into process.env
 async function loadSecretsToEnv({
@@ -8,6 +11,14 @@ async function loadSecretsToEnv({
   optional = false,
   region = 'eu-central-1',
 } = {}) {
+  // Lazy load AWS SDK only when needed
+  if (!SecretsManagerClient) {
+    // eslint-disable-next-line global-require
+    const aws = require('@aws-sdk/client-secrets-manager');
+    SecretsManagerClient = aws.SecretsManagerClient;
+    GetSecretValueCommand = aws.GetSecretValueCommand;
+  }
+
   const client = new SecretsManagerClient({ region });
 
   try {
@@ -45,16 +56,27 @@ async function loadSecretsToEnv({
 }
 
 (async () => {
-  if (process.env.USE_SECRETS_MANAGER) {
+  // Only use AWS Secrets Manager if explicitly enabled
+  const useSecretsManager =
+    process.env.USE_SECRETS_MANAGER === 'true' || process.env.USE_SECRETS_MANAGER === '1';
+
+  if (useSecretsManager) {
+    console.log('🔐 Loading secrets from AWS Secrets Manager...');
     await loadSecretsToEnv({
       prefix: '',
       optional: process.env.NODE_ENV !== 'production',
       region: process.env.AWS_REGION || 'eu-central-1',
       secretId: process.env.SECRETS_MANAGER_ID || 'myapp/staging',
     });
-
+    process.env.__ALREADY_BOOTSTRAPPED_ENVS = true;
+    console.log('✅ Secrets loaded successfully');
+  } else {
+    console.log('📝 Using environment variables (AWS Secrets Manager disabled)');
     process.env.__ALREADY_BOOTSTRAPPED_ENVS = true;
   }
+
+  // Start the application
+  console.log('🚀 Starting Creator Card API...');
   // eslint-disable-next-line global-require
   require('./app');
 })();

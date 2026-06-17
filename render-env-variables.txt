@@ -1,0 +1,20 @@
+PORT=3000
+APP_BASE_URL=https://creator-card-api.onrender.com
+APP_NAME=Creator Card API
+JWT_SECRET=your_super_secure_jwt_secret_change_this_in_production_2024
+JWT_DEFAULT_EXPIRY=3600
+HASH_SALT_ROUNDS=10
+MONGODB_URI=mongodb+srv://quayyumaariyo_db_user:iNFl5POXVGKDGXhZ@contact-card.3z6i92z.mongodb.net/?appName=contact-card
+PINO_LOG_LEVEL=info
+SHOW_RAW_HEADERS=false
+LOG_APP_REQUEST=true
+CAN_LOG_ENDPOINT_INFORMATION=true
+NO_SINGLE_ERRORS=false
+TOP_LEVEL_ERROR_MESSAGE=Validation failed
+ALLOW_ALL_EMAILS=false
+EMAIL_NOTIF_INTERVAL_MINS=5
+USE_SECRETS_MANAGER=false
+MODEL_MOCK_SESSION=false
+USE_MOCK_MODEL=false
+ALLOW_MOCKED_HTTP_PROXY=false
+NODE_ENV=production
