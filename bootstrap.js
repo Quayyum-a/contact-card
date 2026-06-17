@@ -57,8 +57,11 @@ async function loadSecretsToEnv({
 
 (async () => {
   // Only use AWS Secrets Manager if explicitly enabled
+  // On Render, we disable it by default since we use environment variables
+  const isRender = process.env.RENDER === 'true';
   const useSecretsManager =
-    process.env.USE_SECRETS_MANAGER === 'true' || process.env.USE_SECRETS_MANAGER === '1';
+    !isRender &&
+    (process.env.USE_SECRETS_MANAGER === 'true' || process.env.USE_SECRETS_MANAGER === '1');
 
   if (useSecretsManager) {
     console.log('🔐 Loading secrets from AWS Secrets Manager...');
@@ -71,7 +74,11 @@ async function loadSecretsToEnv({
     process.env.__ALREADY_BOOTSTRAPPED_ENVS = true;
     console.log('✅ Secrets loaded successfully');
   } else {
-    console.log('📝 Using environment variables (AWS Secrets Manager disabled)');
+    if (isRender) {
+      console.log('🌐 Running on Render - using environment variables');
+    } else {
+      console.log('📝 Using environment variables (AWS Secrets Manager disabled)');
+    }
     process.env.__ALREADY_BOOTSTRAPPED_ENVS = true;
   }
 
