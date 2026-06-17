@@ -17,5 +17,15 @@ endpoint-data
 *.env
 *.logs
 
+# DOCUMENTATION & IMPLEMENTATION NOTES (exclude from repo)
+IMPLEMENTATION_NOTES.md
+IMPLEMENTATION_COMPLETE.md
+DEPLOYMENT_READY.md
+MASTER_AUDIT_PROMPT.md
+SETUP_STATUS.md
+CHECKLIST.md
+*.history/
+test-creator-cards*.sh
+
 # OS
 .DS_Store
